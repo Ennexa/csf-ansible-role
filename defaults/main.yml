@@ -1,2 +1,3 @@
 ipset: false
 statistical_graphs: false
+csf_rules: []

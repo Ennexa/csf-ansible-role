@@ -9,21 +9,12 @@
 
 # Create a temp dir for our install
 - name: create temp dir
-  command: mkdir -p /tmp/csf
-  when: result|failed
-
-# Download the CSF file
-- name: download csf files
-  command: "wget https://download.configserver.com/csf.tgz"
-  args:
-    chdir: /tmp/csf
+  file: path=/tmp/csf state=directory
   when: result|failed
 
 # Extract tar.gz
 - name: extract csf files
-  command: tar -zxf csf.tgz
-  args:
-    chdir: /tmp/csf
+  unarchive: src=https://download.configserver.com/csf.tgz dest=/tmp/csf/ copy=no
   when: result|failed
 
 # Install lib-perl which is sometimes required for retrieving HTTPS URL's
@@ -58,7 +49,7 @@
   service: name=firewalld state=stopped enabled=no
   register: disable_firewalld
   when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
-  failed_when: "disable_firewalld|failed and 'could not find' not in disable_firewalld.msg"
+  failed_when: "disable_firewalld|failed and 'Could not find' not in disable_firewalld.msg"
 
 # ifconfig (net-tools) needs to be installed for CSF to work properly in CentOS7
 - name: install package net-tools [RedHat]
@@ -74,5 +65,5 @@
 
 # Cleanup TEMP dir we created
 - name: cleanup csf files
-  command: rm -rf /tmp/csf
+  file: path=/tmp/csf state=absent
   when: result|failed

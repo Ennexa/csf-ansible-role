@@ -1,0 +1,29 @@
+---
+
+- name: ensure file exists
+  copy:
+    content: ""
+    dest: /etc/csf/includes/whitelist.allow
+    force: no
+    group: root
+    owner: root
+    mode: 0644
+
+# White list ips
+- name: Whitelist IPs
+  lineinfile: >
+    dest="/etc/csf/includes/whitelist.allow"
+    regexp="^{{ item }}$"
+    line="{{ item }}"
+  with_items: "{{csf_allow_host}}"
+  notify: restart csf
+
+
+# Enable rules in csf.allow
+- name: enable common csf.allow rules
+  lineinfile: >
+    dest="/etc/csf/csf.allow"
+    regexp="^Include /etc/csf/includes/whitelist.allow$"
+    line="Include /etc/csf/includes/whitelist.allow"
+  when: "{{csf_allow_host}}"
+  notify: restart csf

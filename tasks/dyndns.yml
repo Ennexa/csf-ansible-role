@@ -1,0 +1,10 @@
+---
+
+# Add DynDNS hostname
+- name: Whitelist DynDNS IPs
+  lineinfile: >
+    dest="/etc/csf/csf.dyndns"
+    regexp="^{{ item }}$"
+    line="{{ item }}"
+  with_items: "{{csf_dyndns_host}}"
+  notify: restart csf
