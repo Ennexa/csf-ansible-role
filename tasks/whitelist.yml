@@ -15,7 +15,7 @@
     dest="/etc/csf/includes/whitelist.allow"
     regexp="^{{ item }}$"
     line="{{ item }}"
-  with_items: "{{csf_allow_host}}"
+  with_items: "{{ csf_allow_hosts + csf_global_allow_hosts }}"
   notify: restart csf
 
 
@@ -25,5 +25,5 @@
     dest="/etc/csf/csf.allow"
     regexp="^Include /etc/csf/includes/whitelist.allow$"
     line="Include /etc/csf/includes/whitelist.allow"
-  when: "{{csf_allow_host}}"
+  when: "{{ csf_allow_hosts + csf_global_allow_hosts }}"
   notify: restart csf

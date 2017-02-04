@@ -6,5 +6,5 @@
     dest="/etc/csf/csf.dyndns"
     regexp="^{{ item }}$"
     line="{{ item }}"
-  with_items: "{{csf_dyndns_host}}"
+  with_items: "{{ csf_dyndns_hosts }}"
   notify: restart csf

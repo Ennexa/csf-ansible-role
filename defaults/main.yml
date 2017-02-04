@@ -1,3 +1,8 @@
 ipset: false
 statistical_graphs: false
 csf_rules: []
+csf_conf: []
+csf_global_conf: []
+csf_dyndns_hosts: []
+csf_allow_hosts: []
+csf_global_allow_hosts: []
