@@ -11,7 +11,7 @@
 # Install ipset if desired
 - name: install package ipset
   package: name=ipset state=present
-  when: "ipset"
+  when: "ipset|bool"
 
 # Install perl GD Graph if desired
 - name: install package libgd-graph-perl [Debian]

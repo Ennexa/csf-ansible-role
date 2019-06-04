@@ -15,9 +15,10 @@
     dest="/etc/csf/includes/whitelist.allow"
     regexp="^{{ item }}$"
     line="{{ item }}"
-  with_items: "{{ csf_allow_hosts + csf_global_allow_hosts }}"
+  with_flattened:
+    - "{{ csf_allow_hosts }}"
+    - "{{ csf_global_allow_hosts }}"
   notify: restart csf
-
 
 # Enable rules in csf.allow
 - name: enable common csf.allow rules
@@ -25,5 +26,5 @@
     dest="/etc/csf/csf.allow"
     regexp="^Include /etc/csf/includes/whitelist.allow$"
     line="Include /etc/csf/includes/whitelist.allow"
-  when: "{{ csf_allow_hosts + csf_global_allow_hosts }}"
+  when: csf_allow_hosts | bool or csf_global_allow_hosts | bool
   notify: restart csf
