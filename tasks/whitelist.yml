@@ -26,5 +26,5 @@
     dest="/etc/csf/csf.allow"
     regexp="^Include /etc/csf/includes/whitelist.allow$"
     line="Include /etc/csf/includes/whitelist.allow"
-  when: csf_allow_hosts | bool or csf_global_allow_hosts | bool
+  when: csf_allow_hosts|length > 0 or csf_global_allow_hosts|length >0
   notify: restart csf
