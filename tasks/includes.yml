@@ -1,9 +1,9 @@
 ---
-# Create directory that we place rules in 
+# Create directory that we place rules in
 - name: create includes directory
   file: >
-   path=/etc/csf/includes 
-   state=directory 
+   path=/etc/csf/includes
+   state=directory
    owner=root group=root mode=0600
   when: "csf_rules is defined"
 
